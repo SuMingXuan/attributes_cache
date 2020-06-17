@@ -1,36 +1,31 @@
-# AttributesCache
+### 说明
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/attributes_cache`. To experiment with that code, run `bin/console` for an interactive prompt.
+从缓存里面读取数据，如果缓存失效则去数据库里面读取
 
-TODO: Delete this and the text above, and describe your gem
+### 示例
 
-## Installation
-
-Add this line to your application's Gemfile:
+缓存 `user.rb` 表里面的name数据
 
 ```ruby
-gem 'attributes_cache'
+class User < ApplicationRecord
+  include AttributesCache
+
+  fetch_attributes :id, :name
+end
 ```
 
-And then execute:
+### 调用方法
 
-    $ bundle install
+缓存默认失效时间为 `30` 秒，可自定义失效时间 `fetch_attribute(expires_in: 1.day)`
 
-Or install it yourself as:
-
-    $ gem install attributes_cache
-
-## Usage
-
-TODO: Write usage instructions here
-
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/attributes_cache.
-
+```ruby
+user = User.create(id: 1, name: 'xiaoming')
+# 会从数据库里面读取
+user.fetch_id #=> 1
+# 会从缓存里面读取
+user.fetch_id #=> 1
+# 会从数据库里面读取
+user.fetch_name #=> 'xiaoming'
+# 会从缓存里面读取
+user.fetch_name #=> 'xiaoming'
+```

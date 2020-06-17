@@ -4,3 +4,4 @@ source "https://rubygems.org"
 gemspec
 
 gem "rake", "~> 12.0"
+gem 'identity_cache', '~> 1.0', '>= 1.0.1'
