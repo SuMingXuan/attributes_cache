@@ -1,5 +1,12 @@
 ### 说明
 
+请在你的`Gemfile`里面添加
+
+```ruby
+gem 'attributes_cache', git: 'https://github.com/SuMingXuan/attributes_cache.git'
+
+```
+
 从缓存里面读取数据，如果缓存失效则去数据库里面读取
 
 ### 示例
